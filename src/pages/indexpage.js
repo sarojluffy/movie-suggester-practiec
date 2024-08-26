@@ -1,10 +1,12 @@
 import axios from "axios"; //axios is used for communication with apis and database
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+
+import Nav from "../component/navbar";
+import { Col, Container, Form, Row, Spinner } from "react-bootstrap";
+import Displaymovie from "../component/displaymovie";
 
 const Indexpage = () => {
   const [arr, setval] = useState([]);
-  const [count, setcount] = useState(0);
 
   const [inputt, setinput] = useState("");
 
@@ -116,85 +118,114 @@ const Indexpage = () => {
   // ra function chaldaina bich mai terminate huncha 2 sec  napugera
   return (
     <>
-      {localStorage.getItem("token") ? (
-        <>
-          <Link to="/profile">profile</Link>
-        </>
-      ) : (
-        <>
-          {" "}
-          <Link to="/login">login</Link> <br />
-        </>
-      )}
-      <br />
+      <Nav />
+      <Container className="mt-2">
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Control
+            type="email"
+            placeholder="Search movie"
+            value={inputt}
+            onChange={(e) => {
+              setinput(e.target.value);
+            }}
+          />
+        </Form.Group>
+      </Container>
 
-      <Link to="/add">add movie</Link>
-      <div className="App">
-        <button onClick={abc}>click me </button>
-      </div>
-      <button
-        onClick={() => {
-          setcount(count + 1);
-        }}
+      {/* <FloatingLabel
+        controlId="floatingTextarea"
+        label="search movie"
+        className="mb-3"
       >
-        ....
-      </button>
-      <input
+        <Form.Control
+          as="textarea"
+          placeholder="Leave a comment here"
+          value={inputt}
+          onChange={(e) => {
+            setinput(e.target.value);
+          }}
+        />
+      </FloatingLabel> */}
+
+      {/* <FloatingLabel controlId="floatingTextarea2" label="description">
+        <Form.Control
+          type="text"
+          value={inputt}
+          placeholder="search movie"
+          style={{ height: "100px" }}
+          onChange={(e) => {
+            setinput(e.target.value);
+          }}
+        />
+      </FloatingLabel> */}
+
+      {/* <input
         type="text"
         value={inputt}
+        placeholder="search movie"
+        style={{ margin: "5px" }}
         onChange={(e) => {
           setinput(e.target.value);
         }}
-      ></input>
+      ></input> */}
       <span style={{ color: "red" }}>{lessthan2}</span>
-      <div>{loading ? <>loading.....</> : <></>}</div>
+      <span>
+        {loading ? (
+          <>
+            <Spinner animation="border" size="sm" />
+          </>
+        ) : (
+          <></>
+        )}
+      </span>
       {iserror ? (
         <>
           <div style={{ background: "red" }}>{errorText}</div>
         </>
       ) : (
         <>
-          <div
-            style={{
-              background: "#e7e7e7",
-              display: "flex",
-              justifyContent: "space-around",
-              margin: "5px",
-              padding: "5px",
-            }}
-          >
+          <div className="bg-secondary  bg-opacity-10">
             {arr.length < 1 ? (
-              <>no movies found</>
+              <>
+                <center>NO MOVIES FOUND</center>
+              </>
             ) : (
               <>
-                {" "}
-                {arr.map((abc) => (
-                  <div key={abc.id}>
-                    <img
-                      src={abc.image}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                      }}
-                      alt="abcv"
-                    ></img>
-                    <br />
-                    {/* in react  for img tag , alt is compulsary*/}
-                    <Link to={`/viewsingle/${abc.id}`}>
-                      {" "}
-                      {/* PARAMS KO FORMAT HO YO , QUERY KO ARKAI HUNCHA */}
-                      <center style={{ fontWeight: "bold" }}>{abc.name}</center>
-                    </Link>
-                    <br />
-                    {abc.info}
-                    <br />
-                    {abc.rating}
-                  </div>
-
-                  // <></> represents the child , so we are not using it here ,because using
-                  //   unique id inside child components wont work
-                ))}
+                <Row>
+                  {arr.map((abc) => (
+                    <Col>
+                      <Container>
+                        <Displaymovie sentasprops={abc} />
+                      </Container>
+                    </Col>
+                  ))}
+                </Row>
               </>
+
+              // <div key={abc.id}>
+              //   <img
+              //     src={abc.image}
+              //     style={{
+              //       display: "flex",
+              //       justifyContent: "space-evenly",
+              //     }}
+              //     alt="abcv"
+              //   ></img>
+              //   <br />
+              //   {/* in react  for img tag , alt is compulsary*/}
+              //   <Link to={`/viewsingle/${abc.id}`}>
+              //     {" "}
+              //     {/* PARAMS KO FORMAT HO YO , QUERY KO ARKAI HUNCHA */}
+              //     <center style={{ fontWeight: "bold" }}>{abc.name}</center>
+              //   </Link>
+              //   <br />
+              //   {abc.info}
+              //   <br />
+              //   {abc.rating}
+              // </div>
+
+              // <></> represents the child , so we are not using it here ,because using
+              //   unique id inside child components wont work
             )}
           </div>
         </>

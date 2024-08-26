@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import Nav from "../component/navbar";
+import { Button, Card, Container } from "react-bootstrap";
 
 const Viewsingle = () => {
   //   const [getObject, setobject] = useState("");
@@ -31,27 +33,36 @@ const Viewsingle = () => {
   return (
     <>
       {/* <button onClick={Getsinglemov}>get movie info</button> */}
-      <div>
-        <br />
+      <Nav />
 
-        <>
-          <div>
-            name: {getObject.name} <br />
-            info :{getObject.info}
-            <br />
-            desc :{getObject.desc}
-            <br />
-            rating:{getObject.rating}
-            <br />
-            <img
-              src={getObject.image}
-              style={{ display: "flex", justifyContent: "space-evenly" }}
-              alt="abcv"
-            ></img>
-            <br />
-          </div>
-        </>
-      </div>
+      <Container>
+        <div>
+          <br />
+
+          <>
+            <div>
+              <h1 className="text-info">{getObject.name}</h1> <br />
+              <Card>info :{getObject.info}</Card>
+              <br />
+              <Card>{getObject.desc}</Card>
+              <br />
+              <Card>RATINGS: {getObject.rating}</Card>
+              <br />
+              <img
+                src={getObject.image}
+                style={{ display: "flex", justifyContent: "space-evenly" }}
+                alt="abcv"
+              ></img>
+              <br />
+            </div>
+          </>
+        </div>
+        <Link to="/">
+          <Button variant="dark" type="submit">
+            Go back
+          </Button>
+        </Link>
+      </Container>
     </>
   );
 };
